@@ -36,6 +36,7 @@ buildscript {
   }
 }
 
+
 sonar {
   properties {
     property "sonar.projectKey", "Kafka-Software-Design"
