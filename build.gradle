@@ -44,6 +44,8 @@ sonar {
   }
 }
 
+apply plugin: "org.sonarqube"
+
 apply plugin: "com.diffplug.gradle.spotless"
 spotless {
   scala {
