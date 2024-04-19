@@ -42,6 +42,7 @@ sonar {
     property "sonar.projectKey", "Kafka-Software-Design"
     property "sonar.projectName", "Kafka Software Design"
   }
+}
 
 apply plugin: "com.diffplug.gradle.spotless"
 spotless {
