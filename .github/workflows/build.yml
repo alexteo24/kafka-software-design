@@ -1,41 +1,37 @@
-name: Build
-
+name: SonarCloud
 on:
   push:
     branches:
       - main
-
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: Build
+    name: Build and analyze
     runs-on: ubuntu-latest
-    permissions: read-all
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 17
-      - name: Cache SonarQube packages
-        uses: actions/cache@v1
+          distribution: 'zulu' # Alternative distribution options are available
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Gradle packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         env:
-          SONAR_TOKEN: sqp_403022e5b73c3898cd16513bd32599a24dc7ce37
-          SONAR_HOST_URL: http://localhost:9000
-#        run: ./gradlew build sonar --info --stacktrace -x clients:checkstyleMain -x clients:checkstyleTest -x clients:test -x core:checkstyleMain -x core:checkstyleTest -x core:test -x example:checkstyleMain
-        run: ./gradlew build sonar --info --stacktrace -x Test -Dsonar.token=sqp_403022e5b73c3898cd16513bd32599a24dc7ce37 -Dsonar.host.url=http://localhost:9000 -Dsonar.projectKey=Kafka-Software-Design -Dsonar.projectName='Kafka Software Design'
-        # ./gradlew checkstyle --stacktrace
-        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonar --info
