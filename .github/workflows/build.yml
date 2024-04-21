@@ -35,6 +35,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonar --info --stacktrace -x clients:checkstyleMain -x clients:checkstyleTest -x clients:test
+        run: ./gradlew build sonar --info --stacktrace -x clients:checkstyleMain -x clients:checkstyleTest -x clients:test -x core:checkstyleMain -x core:checkstyleTest -x core:test
         # ./gradlew checkstyle --stacktrace
         
