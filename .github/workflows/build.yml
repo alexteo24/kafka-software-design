@@ -33,9 +33,9 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: sqp_403022e5b73c3898cd16513bd32599a24dc7ce37
+          SONAR_HOST_URL: http://localhost:9000
 #        run: ./gradlew build sonar --info --stacktrace -x clients:checkstyleMain -x clients:checkstyleTest -x clients:test -x core:checkstyleMain -x core:checkstyleTest -x core:test -x example:checkstyleMain
-        run: ./gradlew build sonar --info -x Test
+        run: ./gradlew build sonar --info --stac-x Test
         # ./gradlew checkstyle --stacktrace
         
